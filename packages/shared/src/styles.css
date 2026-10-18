@@ -68,6 +68,9 @@ h1 {
   margin: 0;
   color: var(--muted);
   max-width: 48ch;
+  /* Reserve 3 lines so both apps' headers, and their accent lines, sit at the
+     same height in the side-by-side view even when one tagline is shorter. */
+  min-height: 4.5em;
 }
 
 .locale-picker {
