@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5100 --strictPort"
+    "dev": "vite --port 5100 --strictPort",
+    "build": "vite build"
   },
   "devDependencies": {
     "vite": "^8.0.0"

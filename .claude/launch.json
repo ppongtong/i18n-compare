@@ -1,8 +1,43 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "side-by-side", "runtimeExecutable": "pnpm", "runtimeArgs": ["--filter", "side-by-side", "dev"], "port": 5100 },
-    { "name": "react-i18next", "runtimeExecutable": "pnpm", "runtimeArgs": ["--filter", "react-i18next-demo", "dev"], "port": 5101 },
-    { "name": "lingui", "runtimeExecutable": "pnpm", "runtimeArgs": ["--filter", "lingui-demo", "dev"], "port": 5102 }
+    {
+      "name": "side-by-side",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "side-by-side",
+        "dev"
+      ],
+      "port": 5100
+    },
+    {
+      "name": "react-i18next",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "react-i18next-demo",
+        "dev"
+      ],
+      "port": 5101
+    },
+    {
+      "name": "lingui",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "lingui-demo",
+        "dev"
+      ],
+      "port": 5102
+    },
+    {
+      "name": "site-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "preview:site"
+      ],
+      "port": 5200
+    }
   ]
 }

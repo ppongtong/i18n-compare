@@ -4,6 +4,8 @@ A pnpm monorepo with **two React apps that implement the same nine i18n scenario
 
 Start with **[COMPARISON.md](COMPARISON.md)**. It has the measured results, the trade-offs, and a decision guide.
 
+**Live demo:** https://ppongtong.github.io/i18n-compare/ (side by side). The apps are also available on their own at [`/react-i18next/`](https://ppongtong.github.io/i18n-compare/react-i18next/) and [`/lingui/`](https://ppongtong.github.io/i18n-compare/lingui/). Every push to `master` redeploys via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
 ## Quick start
 
 ```bash
@@ -25,11 +27,13 @@ At the top of each app, the **"What happens when you change the language"** pane
 
 | Command | What it does |
 |---|---|
-| `pnpm test` | Runs the shared conformance suite (27 tests: 9 scenarios × 3 locales) against both apps |
+| `pnpm test` | Runs the shared conformance suite (28 tests: 9 scenarios × 3 locales, plus one lazy-loading check) against both apps |
 | `pnpm typecheck` | `tsc` for every package |
 | `pnpm bench` | Micro-benchmarks: translate calls and full `renderToString(<App />)`. Runs one app at a time |
 | `pnpm compare:size` | Builds both apps and writes `reports/bundle-size.md`: runtime size, initial JS, and lazy locale chunks |
 | `pnpm i18n:extract` | Runs each library's extractor: `i18next-cli extract` and `lingui extract` |
+| `pnpm build:site` | Builds all three apps into `site/`, laid out exactly as deployed |
+| `pnpm preview:site` | Serves `site/` at http://localhost:5200/i18n-compare/ to check the deploy build locally |
 | `pnpm i18n:status` | `i18next-cli status`, which reports untranslated keys. Lingui prints the same table during extract |
 
 ## Layout

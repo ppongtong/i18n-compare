@@ -11,7 +11,9 @@
     "bench": "pnpm --workspace-concurrency=1 --filter \"./apps/*\" bench",
     "compare:size": "node scripts/compare-size.mjs",
     "i18n:extract": "pnpm --filter \"./apps/*\" i18n:extract",
-    "i18n:status": "pnpm --filter react-i18next-demo i18n:status"
+    "i18n:status": "pnpm --filter react-i18next-demo i18n:status",
+    "build:site": "pnpm build && node scripts/build-site.mjs",
+    "preview:site": "vite preview --outDir site --base /i18n-compare/ --port 5200 --strictPort"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

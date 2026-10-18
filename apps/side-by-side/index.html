@@ -62,33 +62,13 @@
   <body>
     <header>
       <strong>react-i18next vs Lingui</strong>
-      <span class="hint">Both apps must be running (<code>pnpm dev</code>). Locale:</span>
+      <span class="hint" id="hint">Locale:</span>
       <div id="locales" role="group" aria-label="Locale"></div>
     </header>
     <main>
       <iframe id="left" title="react-i18next demo"></iframe>
       <iframe id="right" title="Lingui demo"></iframe>
     </main>
-    <script type="module">
-      const apps = { left: "http://localhost:5101/", right: "http://localhost:5102/" };
-      const locales = ["en", "pl", "ar"];
-      const group = document.getElementById("locales");
-
-      function show(locale) {
-        for (const [id, url] of Object.entries(apps)) {
-          document.getElementById(id).src = `${url}?locale=${locale}`;
-        }
-        for (const b of group.children) b.setAttribute("aria-pressed", String(b.dataset.locale === locale));
-      }
-
-      for (const locale of locales) {
-        const b = document.createElement("button");
-        b.textContent = locale;
-        b.dataset.locale = locale;
-        b.addEventListener("click", () => show(locale));
-        group.append(b);
-      }
-      show("en");
-    </script>
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
