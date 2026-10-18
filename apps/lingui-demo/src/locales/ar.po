@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ar\n"
 
-#: src/App.tsx:18
+#: src/App.tsx:19
 msgid "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
 msgstr "{count, plural, =0 {سلتك فارغة} zero {سلتك فارغة} one {منتج واحد في سلتك} two {منتجان في سلتك} few {# منتجات في سلتك} many {# منتجًا في سلتك} other {# منتج في سلتك}}"
 
-#: src/App.tsx:23
+#: src/App.tsx:24
 msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
 msgstr "{gender, select, female {{name} أعجبت بمراجعتك} male {{name} أعجب بمراجعتك} other {{name} أُعجب/ت بمراجعتك}}"
 
-#: src/App.tsx:151
+#: src/App.tsx:120
 msgid "Ordered on {ordered}"
 msgstr "تاريخ الطلب: {ordered}"
 
@@ -23,22 +23,22 @@ msgstr "تاريخ الطلب: {ordered}"
 msgid "Please enter a valid email address."
 msgstr "يرجى إدخال عنوان بريد إلكتروني صالح."
 
-#: src/App.tsx:124
+#: src/App.tsx:110
 msgid "Read our <0>terms of service</0> and <1>accept</1> them to continue."
 msgstr "اقرأ <0>شروط الخدمة</0> و<1>وافق</1> عليها للمتابعة."
 
-#: src/App.tsx:152
+#: src/App.tsx:121
 msgid "Shipped {shipped}"
 msgstr "تم الشحن {shipped}"
 
-#: src/App.tsx:178
+#: src/App.tsx:129
 msgid "This sentence has not been translated yet."
 msgstr ""
 
-#: src/App.tsx:137
+#: src/App.tsx:116
 msgid "Total: {total}"
 msgstr "الإجمالي: {total}"
 
-#: src/App.tsx:71
+#: src/App.tsx:86
 msgid "Welcome back, {name}!"
 msgstr "مرحبًا بعودتك، {name}!"

@@ -12,6 +12,9 @@ import {
   type Gender,
   type Locale,
 } from "@i18n-compare/shared";
+import { switchLocale } from "./i18n";
+import { catalogView } from "./catalog";
+import { howTo } from "./howto";
 import { validateEmail } from "./validation";
 
 export function App() {
@@ -24,7 +27,7 @@ export function App() {
 
   async function changeLocale(next: Locale) {
     setLoading(true);
-    await i18n.changeLanguage(next); // resolves after the JSON chunk is loaded
+    await switchLocale(next);
     setLoading(false);
   }
 
@@ -32,35 +35,41 @@ export function App() {
     <Shell
       library="react-i18next"
       accent="teal"
-      tagline="Runtime key lookup: t('key') against JSON catalogs, i18next formatters, lazy-loaded via a backend."
+      tagline="You give each sentence a key and keep the text in one JSON file per language. Components look up text by key while the app runs."
       locale={locale}
       onLocaleChange={changeLocale}
       loading={loading}
+      catalog={catalogView(locale)}
+      howItWorks={
+        <>
+          <li>
+            <strong>English is built in.</strong> <code>en/translation.json</code> is passed to{" "}
+            <code>i18n.init({"{ resources }"})</code>, so it ships inside the main JS. Picking en never makes a
+            request.
+          </li>
+          <li>
+            <strong>Other languages load on first use.</strong> <code>changeLanguage("pl")</code> asks the backend (
+            <code>resourcesToBackend</code>) for <code>pl/translation.json</code>. Vite made each JSON file its own
+            small JS chunk, so you see one network request.
+          </li>
+          <li>
+            <strong>Then it stays in memory.</strong> The catalog is kept in i18next's resource store. Switching back
+            later makes no request.
+          </li>
+          <li>
+            <strong>Re-render, no reload.</strong> i18next fires <code>languageChanged</code> and every component
+            using <code>useTranslation()</code> re-renders with the new text.
+          </li>
+        </>
+      }
     >
-      <Scenario
-        id="greeting"
-        title="1. Interpolation"
-        description="A variable inside a sentence."
-        code={`
-// en/translation.json
-"greeting": "Welcome back, {{name}}!"
+      <Scenario id="setup" howTo={howTo.setup} />
 
-t("greeting", { name })`}
-      >
+      <Scenario id="greeting" howTo={howTo.greeting}>
         {t("greeting", { name: demo.userName })}
       </Scenario>
 
-      <Scenario
-        id="plurals"
-        title="2. Plurals (CLDR)"
-        description="One key per plural category with _zero/_one/_two/_few/_many/_other suffixes. Translators add the categories their language needs."
-        code={`
-// en: cart_zero, cart_one, cart_other
-"cart_one": "{{count, number}} item in your cart"
-// ar adds: cart_two, cart_few, cart_many
-
-t("cart", { count })`}
-      >
+      <Scenario id="plurals" howTo={howTo.plurals}>
         <ul>
           {demo.cartCounts.map((n) => (
             <li key={n} data-testid={`cart-${n}`}>
@@ -70,16 +79,7 @@ t("cart", { count })`}
         </ul>
       </Scenario>
 
-      <Scenario
-        id="select"
-        title="3. Gender / select"
-        description="i18next 'context' appends a suffix to the key (liked_female, liked_male); unknown contexts fall back to the base key."
-        code={`
-"liked": "{{name}} liked your review",
-"liked_female": "...", "liked_male": "..."
-
-t("liked", { name, context: gender })`}
-      >
+      <Scenario id="select" howTo={howTo.select}>
         <ul>
           {demo.reviewers.map((r) => (
             <li key={r.gender} data-testid={`liked-${r.gender}`}>
@@ -89,41 +89,15 @@ t("liked", { name, context: gender })`}
         </ul>
       </Scenario>
 
-      <Scenario
-        id="rich"
-        title="4. Rich text (components inside a translation)"
-        description="Named tags in the string map to React elements passed via the components prop."
-        code={`
-"terms": "Read our <link>terms of service</link> and <bold>accept</bold> them to continue."
-
-<Trans i18nKey="terms" components={{ link: <a href="/terms" />, bold: <strong /> }} />`}
-      >
+      <Scenario id="rich" howTo={howTo.rich}>
         <Trans i18nKey="terms" components={{ link: <a href="/terms" />, bold: <strong /> }} />
       </Scenario>
 
-      <Scenario
-        id="number"
-        title="5. Currency"
-        description="Built-in formatter in the message; options passed with formatParams."
-        code={`
-"total": "Total: {{price, currency}}"
-
-t("total", { price, formatParams: { price: { currency: "EUR" } } })`}
-      >
+      <Scenario id="number" howTo={howTo.number}>
         {t("total", { price: demo.price, formatParams: { price: currencyOptions } })}
       </Scenario>
 
-      <Scenario
-        id="dates"
-        title="6. Dates & relative time"
-        description="datetime and relativetime formatters are built in (Intl under the hood)."
-        code={`
-"ordered": "Ordered on {{date, datetime}}",
-"shipped": "Shipped {{days, relativetime(day)}}"
-
-t("ordered", { date, formatParams: { date: { dateStyle: "long" } } })
-t("shipped", { days: -3 })`}
-      >
+      <Scenario id="dates" howTo={howTo.dates}>
         <div data-testid="ordered">
           {t("ordered", { date: demo.orderDate, formatParams: { date: dateOptions } })}
         </div>
@@ -132,40 +106,15 @@ t("shipped", { days: -3 })`}
         </div>
       </Scenario>
 
-      <Scenario
-        id="outside"
-        title="7. Outside React"
-        description="A plain module imports the i18n instance and calls i18n.t()."
-        code={`
-// validation.ts
-import i18n from "./i18n";
-export const validateEmail = (v) =>
-  isValidEmail(v) ? null : i18n.t("errors.email");`}
-      >
+      <Scenario id="outside" howTo={howTo.outside}>
         {validateEmail(demo.invalidEmail)}
       </Scenario>
 
-      <Scenario
-        id="fallback"
-        title="8. Missing translation fallback"
-        description="Key exists only in en/translation.json; fallbackLng: 'en' fills the gap."
-        code={`
-// only in en/translation.json
-"untranslated": "This sentence has not been translated yet."
-
-i18n.init({ fallbackLng: "en", ... })`}
-      >
+      <Scenario id="fallback" howTo={howTo.fallback}>
         {t("untranslated")}
       </Scenario>
 
-      <Scenario
-        id="playground"
-        title="9. Playground"
-        description="Change the inputs; output re-renders in the active locale."
-        code={`
-t("cart", { count })
-t("liked", { name, context: gender })`}
-      >
+      <Scenario id="playground" howTo={howTo.playground}>
         <PlaygroundControls count={count} onCountChange={setCount} gender={gender} onGenderChange={setGender} />
         <div data-testid="playground-cart">{t("cart", { count })}</div>
         <div data-testid="playground-liked">{t("liked", { name: demo.userName, context: gender })}</div>

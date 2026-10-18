@@ -19,6 +19,8 @@ pnpm dev          # all three dev servers
 
 Each scenario card has a **Code** toggle that shows how that library expresses it.
 
+At the top of each app, the **"What happens when you change the language"** panel explains how that library loads a language. It also keeps a live log of each switch: which catalog was fetched, the actual network request with its size and time, and when a language was served from memory or was already bundled.
+
 ## Commands
 
 | Command | What it does |

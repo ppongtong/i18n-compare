@@ -11,6 +11,10 @@ const text = (testId: string, root: HTMLElement = document.body) =>
 
 async function renderIn(renderApp: () => ReactElement, locale: Locale) {
   render(renderApp());
+  await switchTo(locale);
+}
+
+async function switchTo(locale: Locale) {
   const select = (await screen.findByTestId("locale-select")) as HTMLSelectElement;
   if (select.value !== locale) fireEvent.change(select, { target: { value: locale } });
   // Non-source catalogs load lazily; wait until the new one is active.
@@ -20,6 +24,21 @@ async function renderIn(renderApp: () => ReactElement, locale: Locale) {
 export function runConformanceSuite(library: string, renderApp: () => ReactElement) {
   describe(`${library} — conformance`, () => {
     afterEach(cleanup);
+
+    // Must run first: it relies on "pl" not having been loaded by an earlier test.
+    it("loads a catalog on first use only, then serves it from memory", async () => {
+      await renderIn(renderApp, "pl");
+      await switchTo("en");
+      await switchTo("pl");
+      const kinds = (group: HTMLElement) =>
+        [...group.querySelectorAll("[data-kind]")].map((el) => el.getAttribute("data-kind"));
+      // Newest first: pl again, en, pl the first time.
+      const [plAgain, en, plFirst] = screen.getAllByTestId("activity-group");
+      expect(kinds(plFirst)).toContain("fetch");
+      expect(kinds(en)).toContain("bundled");
+      expect(kinds(plAgain)).toContain("cached");
+      expect(kinds(plAgain)).not.toContain("fetch");
+    });
 
     for (const { code: locale } of LOCALES) {
       const exp = expected[locale];

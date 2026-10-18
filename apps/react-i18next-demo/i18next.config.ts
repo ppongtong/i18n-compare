@@ -6,7 +6,8 @@ export default defineConfig({
   locales: ["en", "pl", "ar"],
   extract: {
     input: ["src/**/*.{ts,tsx}"],
-    ignore: ["src/**/*.test.tsx", "src/**/*.bench.tsx"],
+    // howto.ts holds example snippets shown in the UI, not real t() calls.
+    ignore: ["src/**/*.test.tsx", "src/**/*.bench.tsx", "src/howto.ts"],
     output: "src/locales/{{language}}/{{namespace}}.json",
     defaultNS: "translation",
     primaryLanguage: "en",

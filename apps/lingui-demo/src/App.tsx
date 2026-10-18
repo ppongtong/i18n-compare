@@ -11,6 +11,8 @@ import {
   type Locale,
 } from "@i18n-compare/shared";
 import { activateLocale } from "./i18n";
+import { catalogView } from "./catalog";
+import { howTo } from "./howto";
 import { validateEmail } from "./validation";
 
 // Reused by the list and the playground so each message is extracted once.
@@ -53,35 +55,40 @@ export function App() {
     <Shell
       library="Lingui"
       accent="violet"
-      tagline="Compile-time macros: write the English message in code, extract to .po catalogs, ICU MessageFormat, lazy-loaded per locale."
+      tagline="You write the English text directly in components. A command copies it into one .po file per language for translators, and the build turns it into fast lookups."
       locale={locale}
       onLocaleChange={changeLocale}
       loading={loading}
+      catalog={catalogView()}
+      howItWorks={
+        <>
+          <li>
+            <strong>English is built in.</strong> <code>en.po</code> is imported statically; @lingui/vite-plugin
+            compiles it into the main JS. Picking en never makes a request.
+          </li>
+          <li>
+            <strong>Other languages load on first use.</strong> <code>activateLocale("pl")</code> runs{" "}
+            <code>import("./locales/pl.po")</code>. The plugin compiles the .po into a small JS chunk of precompiled
+            messages (no parsing in the browser), so you see one network request.
+          </li>
+          <li>
+            <strong>Then it stays in memory.</strong> <code>i18n.load()</code> keeps the catalog. Switching back later
+            makes no request.
+          </li>
+          <li>
+            <strong>Re-render, no reload.</strong> <code>i18n.activate()</code> notifies <code>I18nProvider</code>, and
+            every component using <code>useLingui()</code> or <code>&lt;Trans&gt;</code> re-renders with the new text.
+          </li>
+        </>
+      }
     >
-      <Scenario
-        id="greeting"
-        title="1. Interpolation"
-        description="The English sentence lives in the code; the macro turns it into a message id."
-        code={`
-const { t } = useLingui();
-t\`Welcome back, \${name}!\`
+      <Scenario id="setup" howTo={howTo.setup} />
 
-// en.po → msgid "Welcome back, {name}!"`}
-      >
+      <Scenario id="greeting" howTo={howTo.greeting}>
         {t`Welcome back, ${name}!`}
       </Scenario>
 
-      <Scenario
-        id="plurals"
-        title="2. Plurals (ICU)"
-        description="One ICU message holds every form. Translators add the categories their language needs inside the same string."
-        code={`
-<Plural value={count} _0="Your cart is empty"
-  one="# item in your cart" other="# items in your cart" />
-
-// ar.po msgstr "{n, plural, =0 {...} one {...} two {...}
-//   few {# ...} many {# ...} other {# ...}}"`}
-      >
+      <Scenario id="plurals" howTo={howTo.plurals}>
         <ul>
           {demo.cartCounts.map((n) => (
             <li key={n} data-testid={`cart-${n}`}>
@@ -91,16 +98,7 @@ t\`Welcome back, \${name}!\`
         </ul>
       </Scenario>
 
-      <Scenario
-        id="select"
-        title="3. Gender / select"
-        description="ICU select: the branches live in one message, so translators see all variants together."
-        code={`
-<Select value={gender}
-  _female={\`\${name} liked your review\`}
-  _male={\`\${name} liked your review\`}
-  other={\`\${name} liked your review\`} />`}
-      >
+      <Scenario id="select" howTo={howTo.select}>
         <ul>
           {demo.reviewers.map(({ name, gender }) => (
             <li key={gender} data-testid={`liked-${gender}`}>
@@ -110,82 +108,30 @@ t\`Welcome back, \${name}!\`
         </ul>
       </Scenario>
 
-      <Scenario
-        id="rich"
-        title="4. Rich text (components inside a translation)"
-        description="Write plain JSX inside <Trans>; the macro numbers the elements (<0>, <1>) for translators."
-        code={`
-<Trans>
-  Read our <a href="/terms">terms of service</a> and <strong>accept</strong> them to continue.
-</Trans>
-
-// msgid "Read our <0>terms of service</0> and <1>accept</1> them to continue."`}
-      >
+      <Scenario id="rich" howTo={howTo.rich}>
         <Trans>
           Read our <a href="/terms">terms of service</a> and <strong>accept</strong> them to continue.
         </Trans>
       </Scenario>
 
-      <Scenario
-        id="number"
-        title="5. Currency"
-        description="Format with i18n.number (Intl), then interpolate the result."
-        code={`
-const total = i18n.number(price, { style: "currency", currency: "EUR" });
-t\`Total: \${total}\``}
-      >
+      <Scenario id="number" howTo={howTo.number}>
         {t`Total: ${total}`}
       </Scenario>
 
-      <Scenario
-        id="dates"
-        title="6. Dates & relative time"
-        description="i18n.date for dates; no built-in relative-time helper, so Intl.RelativeTimeFormat directly."
-        code={`
-const ordered = i18n.date(date, { dateStyle: "long" });
-const shipped = new Intl.RelativeTimeFormat(i18n.locale, { numeric: "auto" })
-  .format(-3, "day");
-t\`Ordered on \${ordered}\`
-t\`Shipped \${shipped}\``}
-      >
+      <Scenario id="dates" howTo={howTo.dates}>
         <div data-testid="ordered">{t`Ordered on ${ordered}`}</div>
         <div data-testid="shipped">{t`Shipped ${shipped}`}</div>
       </Scenario>
 
-      <Scenario
-        id="outside"
-        title="7. Outside React"
-        description="msg`` defines a lazy message at module scope; i18n._() translates it at call time."
-        code={`
-// validation.ts
-const invalidEmail = msg\`Please enter a valid email address.\`;
-export const validateEmail = (v) =>
-  isValidEmail(v) ? null : i18n._(invalidEmail);`}
-      >
+      <Scenario id="outside" howTo={howTo.outside}>
         {validateEmail(demo.invalidEmail)}
       </Scenario>
 
-      <Scenario
-        id="fallback"
-        title="8. Missing translation fallback"
-        description="msgstr is empty in pl.po / ar.po; fallbackLocales + the source message fill the gap."
-        code={`
-<Trans>This sentence has not been translated yet.</Trans>
-
-// lingui.config.ts
-fallbackLocales: { default: "en" }`}
-      >
+      <Scenario id="fallback" howTo={howTo.fallback}>
         <Trans>This sentence has not been translated yet.</Trans>
       </Scenario>
 
-      <Scenario
-        id="playground"
-        title="9. Playground"
-        description="Change the inputs; output re-renders in the active locale."
-        code={`
-<Plural value={count} ... />
-<Select value={gender} ... />`}
-      >
+      <Scenario id="playground" howTo={howTo.playground}>
         <PlaygroundControls count={count} onCountChange={setCount} gender={gender} onGenderChange={setGender} />
         <div data-testid="playground-cart">
           <CartSummary count={count} />

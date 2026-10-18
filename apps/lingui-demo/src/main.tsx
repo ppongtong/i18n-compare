@@ -7,7 +7,7 @@ import { activateLocale, i18n } from "./i18n";
 import { App } from "./App";
 
 const initial = localeFromUrl();
-if (initial) await activateLocale(initial);
+if (initial) await activateLocale(initial, `page load (?locale=${initial})`);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

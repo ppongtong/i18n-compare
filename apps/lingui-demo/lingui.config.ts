@@ -10,7 +10,7 @@ export default defineConfig({
     {
       path: "<rootDir>/src/locales/{locale}",
       include: ["src"],
-      exclude: ["**/*.test.tsx", "**/*.bench.tsx"],
+      exclude: ["**/*.test.tsx", "**/*.bench.tsx", "**/howto.ts"],
     },
   ],
 });
