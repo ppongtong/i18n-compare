@@ -27,7 +27,7 @@ At the top of each app, the **"What happens when you change the language"** pane
 
 | Command | What it does |
 |---|---|
-| `pnpm test` | Runs the shared conformance suite (28 tests: 9 scenarios × 3 locales, plus one lazy-loading check) against both apps |
+| `pnpm test` | Runs the shared conformance suite (37 tests: 9 scenarios × 4 locales, plus one lazy-loading check) against both apps |
 | `pnpm typecheck` | `tsc` for every package |
 | `pnpm bench` | Micro-benchmarks: translate calls and full `renderToString(<App />)`. Runs one app at a time |
 | `pnpm compare:size` | Builds both apps and writes `reports/bundle-size.md`: runtime size, initial JS, and lazy locale chunks |
@@ -53,7 +53,7 @@ reports/                generated output
 ### The scenarios
 
 1. Interpolation
-2. CLDR plurals: en (2 forms), pl (4), ar (6, including zero/two)
+2. CLDR plurals: en (2 forms), pl (4), ar (6, including zero/two), th (1: no plural forms)
 3. Gender/select
 4. Rich text with React elements inside a translation
 5. Currency formatting

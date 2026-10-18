@@ -30,7 +30,7 @@ export function catalogView(locale: Locale): CatalogView {
           (~22 kB gzip).
         </li>
         <li>
-          <strong>Missing translations stay empty.</strong> In pl and ar, <code>untranslated</code> is <code>""</code>.
+          <strong>Missing translations stay empty.</strong> In pl, ar and th, <code>untranslated</code> is <code>""</code>.
           English is looked up while the app runs (<code>fallbackLng</code>).
         </li>
       </>

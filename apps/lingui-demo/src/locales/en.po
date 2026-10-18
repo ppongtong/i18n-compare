@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: src/App.tsx:19
+#: src/App.tsx:20
 msgid "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
 msgstr "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
 
-#: src/App.tsx:24
+#: src/App.tsx:25
 msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
 msgstr "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
 
-#: src/App.tsx:120
+#: src/App.tsx:122
 msgid "Ordered on {ordered}"
 msgstr "Ordered on {ordered}"
 
@@ -23,22 +23,22 @@ msgstr "Ordered on {ordered}"
 msgid "Please enter a valid email address."
 msgstr "Please enter a valid email address."
 
-#: src/App.tsx:110
+#: src/App.tsx:112
 msgid "Read our <0>terms of service</0> and <1>accept</1> them to continue."
 msgstr "Read our <0>terms of service</0> and <1>accept</1> them to continue."
 
-#: src/App.tsx:121
+#: src/App.tsx:123
 msgid "Shipped {shipped}"
 msgstr "Shipped {shipped}"
 
-#: src/App.tsx:129
+#: src/App.tsx:131
 msgid "This sentence has not been translated yet."
 msgstr "This sentence has not been translated yet."
 
-#: src/App.tsx:116
+#: src/App.tsx:118
 msgid "Total: {total}"
 msgstr "Total: {total}"
 
-#: src/App.tsx:86
+#: src/App.tsx:88
 msgid "Welcome back, {name}!"
 msgstr "Welcome back, {name}!"

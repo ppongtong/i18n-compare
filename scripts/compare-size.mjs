@@ -89,7 +89,7 @@ function appSizes(app) {
 
   const locales = {};
   for (const [key, chunk] of Object.entries(manifest)) {
-    const m = key.match(/locales\/(pl|ar)\b/);
+    const m = key.match(/locales\/(pl|ar|th)\b/);
     if (m && chunk.isDynamicEntry) locales[m[1]] = file(key);
   }
   return { initial: sum([...initial].map(file)), locales };
@@ -116,6 +116,7 @@ const report = [
   line("Demo app initial JS (incl. React + en catalog)", (r) => r.initial),
   line("Lazy `pl` catalog chunk", (r) => r.locales.pl),
   line("Lazy `ar` catalog chunk", (r) => r.locales.ar),
+  line("Lazy `th` catalog chunk", (r) => r.locales.th),
   "",
   "Brotli: " +
     rows.map((r) => `${r.app.name} runtime ${kb(r.runtime.brotli)}, initial ${kb(r.initial.brotli)}`).join("; ") +

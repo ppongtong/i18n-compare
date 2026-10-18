@@ -13,12 +13,12 @@ export const SCENARIOS = {
   plurals: {
     title: "2. Plurals",
     description:
-      "The sentence changes with the number. English has 2 forms (1 item, 2 items), Polish has 4, and Arabic has 6.",
+      "The sentence changes with the number. English has 2 forms (1 item, 2 items), Polish has 4, Arabic has 6, and Thai has just 1.",
   },
   select: {
     title: "3. Text that depends on gender",
     description:
-      "In Polish and Arabic the verb changes with the person's gender. English stays the same, but the app must still allow for it.",
+      "In Polish and Arabic the verb changes with the person's gender. English and Thai stay the same, but the app must still allow for it.",
   },
   rich: {
     title: "4. A link and bold text inside a sentence",
@@ -31,7 +31,8 @@ export const SCENARIOS = {
   },
   dates: {
     title: "6. Dates and “3 days ago”",
-    description: "Dates and relative times follow each language's conventions.",
+    description:
+      "Dates and relative times follow each language's conventions. Thai uses the Buddhist calendar, so 2026 is written as 2569.",
   },
   outside: {
     title: "7. Text in plain code (outside components)",
@@ -40,7 +41,7 @@ export const SCENARIOS = {
   },
   fallback: {
     title: "8. A missing translation",
-    description: "This sentence has no Polish or Arabic translation yet. English should appear instead of blank text.",
+    description: "This sentence has no Polish, Arabic or Thai translation yet. English should appear instead of blank text.",
   },
   playground: {
     title: "9. Try it",

@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-18 14:30-0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: th\n"
+
+#: src/App.tsx:20
+msgid "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
+msgstr "{count, plural, =0 {ตะกร้าของคุณว่างเปล่า} other {มีสินค้า # ชิ้นในตะกร้า}}"
+
+#: src/App.tsx:25
+msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
+msgstr "{name} ถูกใจรีวิวของคุณ"
+
+#: src/App.tsx:122
+msgid "Ordered on {ordered}"
+msgstr "สั่งซื้อเมื่อ {ordered}"
+
+#: src/validation.ts:7
+msgid "Please enter a valid email address."
+msgstr "กรุณากรอกอีเมลให้ถูกต้อง"
+
+#: src/App.tsx:112
+msgid "Read our <0>terms of service</0> and <1>accept</1> them to continue."
+msgstr "อ่าน<0>ข้อกำหนดการให้บริการ</0>ของเรา แล้ว<1>ยอมรับ</1>เพื่อดำเนินการต่อ"
+
+#: src/App.tsx:123
+msgid "Shipped {shipped}"
+msgstr "จัดส่งแล้วเมื่อ {shipped}"
+
+#: src/App.tsx:131
+msgid "This sentence has not been translated yet."
+msgstr ""
+
+#: src/App.tsx:118
+msgid "Total: {total}"
+msgstr "ยอดรวม: {total}"
+
+#: src/App.tsx:88
+msgid "Welcome back, {name}!"
+msgstr "ยินดีต้อนรับกลับมา {name}!"

@@ -71,4 +71,18 @@ export const expected: Record<Locale, Expected> = {
     emailError: "يرجى إدخال عنوان بريد إلكتروني صالح.",
     fallback: FALLBACK,
   },
+  th: {
+    greeting: `ยินดีต้อนรับกลับมา ${demo.userName}!`,
+    // Thai has a single plural form; only the zero case gets its own sentence.
+    cart: (n) => (n === 0 ? "ตะกร้าของคุณว่างเปล่า" : `มีสินค้า ${num("th", n)} ชิ้นในตะกร้า`),
+    // Thai verbs don't change with gender.
+    liked: (name) => `${name} ถูกใจรีวิวของคุณ`,
+    rich: "อ่านข้อกำหนดการให้บริการของเรา แล้วยอมรับเพื่อดำเนินการต่อ",
+    total: `ยอดรวม: ${money("th")}`,
+    // Intl uses the Buddhist calendar for "th": 2026 → 2569.
+    ordered: `สั่งซื้อเมื่อ ${date("th")}`,
+    shipped: `จัดส่งแล้วเมื่อ ${relative("th")}`,
+    emailError: "กรุณากรอกอีเมลให้ถูกต้อง",
+    fallback: FALLBACK,
+  },
 };

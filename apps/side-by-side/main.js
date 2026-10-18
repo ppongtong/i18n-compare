@@ -2,7 +2,7 @@
 const apps = import.meta.env.DEV
   ? { left: "http://localhost:5101/", right: "http://localhost:5102/" }
   : { left: "./react-i18next/", right: "./lingui/" };
-const locales = ["en", "pl", "ar"];
+const locales = ["en", "pl", "ar", "th"];
 const group = document.getElementById("locales");
 
 if (import.meta.env.DEV) {

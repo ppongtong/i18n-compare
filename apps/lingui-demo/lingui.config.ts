@@ -4,7 +4,7 @@ import { defineConfig } from "@lingui/cli";
 // printing a table of missing translations per locale.
 export default defineConfig({
   sourceLocale: "en",
-  locales: ["en", "pl", "ar"],
+  locales: ["en", "pl", "ar", "th"],
   fallbackLocales: { default: "en" },
   catalogs: [
     {

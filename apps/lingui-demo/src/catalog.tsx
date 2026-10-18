@@ -45,7 +45,7 @@ export function catalogView(): CatalogView {
           runtime is small (~4 kB gzip) and each lookup is fast.
         </li>
         <li>
-          <strong>Missing translations are filled in at build time.</strong> In pl and ar, the untranslated sentence
+          <strong>Missing translations are filled in at build time.</strong> In pl, ar and th, the untranslated sentence
           already holds the English text.
         </li>
       </>

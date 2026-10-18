@@ -4,6 +4,7 @@ export const LOCALES = [
   { code: "en", label: "English", dir: "ltr", note: "source locale, 2 plural forms" },
   { code: "pl", label: "Polski", dir: "ltr", note: "4 plural forms (one/few/many/other)" },
   { code: "ar", label: "العربية", dir: "rtl", note: "RTL, 6 plural forms" },
+  { code: "th", label: "ไทย", dir: "ltr", note: "no plural forms, Buddhist-calendar dates" },
 ] as const;
 
 export type Locale = (typeof LOCALES)[number]["code"];
@@ -23,7 +24,7 @@ export const localeDir = (locale: Locale) =>
 
 export const demo = {
   userName: "Ada",
-  // Chosen to hit every CLDR plural category across en / pl / ar.
+  // Chosen to hit every CLDR plural category across en / pl / ar (th has only one).
   cartCounts: [0, 1, 2, 5, 22, 101],
   reviewers: [
     { name: "Ada", gender: "female" },

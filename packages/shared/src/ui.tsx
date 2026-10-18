@@ -199,7 +199,7 @@ function ActivityPanel({ howItWorks, catalog, locale }: { howItWorks: ReactNode;
         <div className="how">
           <ol>{howItWorks}</ol>
           <p className="desc">
-            The <strong>Locale</strong> dropdown above switches in place with no page reload. The en / pl / ar buttons on
+            The <strong>Locale</strong> dropdown above switches in place with no page reload. The language buttons on
             the side-by-side page reload the whole app with <code>?locale=</code>, which shows up here as a{" "}
             <em>page load</em> entry.
           </p>

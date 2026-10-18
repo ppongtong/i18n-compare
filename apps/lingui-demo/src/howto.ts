@@ -145,7 +145,7 @@ function CartSummary({ count }: { count: number }) {
         file: "src/locales/pl.po",
         code: `msgid "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
 msgstr "{count, plural, =0 {Twój koszyk jest pusty} one {# produkt w koszyku} few {# produkty w koszyku} many {# produktów w koszyku} other {# produktu w koszyku}}"`,
-        note: "The <Plural> became one message in the standard ICU format. Polish adds few (2–4, 22–24, …) and many (5–21, …). Arabic adds zero, two, few and many.",
+        note: "The <Plural> became one message in the standard ICU format. Polish adds few (2–4, 22–24, …) and many (5–21, …). Arabic adds zero, two, few and many. Thai has no plural forms, so it keeps only =0 and other.",
       },
       {
         title: "Result",
@@ -182,6 +182,13 @@ function LikedReview({ name, gender }: { name: string; gender: string }) {
         file: "src/locales/pl.po",
         code: `msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
 msgstr "{gender, select, female {{name} polubiła twoją recenzję} male {{name} polubił twoją recenzję} other {{name} polubił(a) twoją recenzję}}"`,
+      },
+      {
+        title: "Thai: the translator can drop the select entirely",
+        file: "src/locales/th.po",
+        code: `msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
+msgstr "{name} ถูกใจรีวิวของคุณ"`,
+        note: "Thai verbs don't change with gender, so one plain sentence covers every case. ICU lets each language use only the structure it needs.",
       },
     ],
   },
@@ -326,7 +333,7 @@ msgstr ""`,
         title: "Fallback is set in the config",
         file: "lingui.config.ts",
         code: `fallbackLocales: { default: "en" },  // use English when msgstr is empty`,
-        note: "Extract lists this as 1 missing translation for pl and ar. You can also make the build fail on missing translations (failOnMissing in the Vite plugin).",
+        note: "Extract lists this as 1 missing translation for pl, ar and th. You can also make the build fail on missing translations (failOnMissing in the Vite plugin).",
       },
     ],
   },

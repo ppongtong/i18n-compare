@@ -1,0 +1,16 @@
+{
+  "cart_zero": "ตะกร้าของคุณว่างเปล่า",
+  "cart_other": "มีสินค้า {{count, number}} ชิ้นในตะกร้า",
+  "errors": {
+    "email": "กรุณากรอกอีเมลให้ถูกต้อง"
+  },
+  "greeting": "ยินดีต้อนรับกลับมา {{name}}!",
+  "liked": "{{name}} ถูกใจรีวิวของคุณ",
+  "liked_female": "{{name}} ถูกใจรีวิวของคุณ",
+  "liked_male": "{{name}} ถูกใจรีวิวของคุณ",
+  "ordered": "สั่งซื้อเมื่อ {{date, datetime}}",
+  "shipped": "จัดส่งแล้วเมื่อ {{days, relativetime(day)}}",
+  "terms": "อ่าน<link>ข้อกำหนดการให้บริการ</link>ของเรา แล้ว<bold>ยอมรับ</bold>เพื่อดำเนินการต่อ",
+  "total": "ยอดรวม: {{price, currency}}",
+  "untranslated": ""
+}

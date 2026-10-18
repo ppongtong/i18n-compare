@@ -4,7 +4,7 @@ Measured on 2026-10-18 with i18next 26.5 + react-i18next 17.1, and Lingui 6.10 u
 
 ## TL;DR
 
-**Both libraries pass all 27 conformance tests.** Neither has a gap on the features most apps need: plurals in all CLDR categories, gender/select, rich text, formatting, lazy loading, and fallback. The choice comes down to **how your team wants to author strings, and how translations reach production**.
+**Both libraries pass all 37 conformance tests.** Neither has a gap on the features most apps need: plurals in all CLDR categories, gender/select, rich text, formatting, lazy loading, and fallback. The choice comes down to **how your team wants to author strings, and how translations reach production**.
 
 - **Choose Lingui** if:
   - you want the smallest runtime;
@@ -24,9 +24,10 @@ Measured on 2026-10-18 with i18next 26.5 + react-i18next 17.1, and Lingui 6.10 u
 | | react-i18next | Lingui |
 |---|---|---|
 | Library runtime only (React excluded) | **22.3 kB** | **4.2 kB** |
-| Demo app initial JS (incl. React 19 + en catalog) | 89.2 kB | 73.0 kB |
+| Demo app initial JS (incl. React 19, en catalog and the demo's explanation text) | 94.9 kB | 78.4 kB |
 | Lazy `pl` catalog | 0.5 kB | 0.5 kB |
 | Lazy `ar` catalog | 0.6 kB | 0.5 kB |
+| Lazy `th` catalog | 0.6 kB | 0.5 kB |
 
 Lingui's runtime is about 18 kB gzip smaller. This is a fixed cost and does not grow with your app. The macros compile to `i18n._(id)` calls, and the message parser runs at build time.
 
@@ -42,7 +43,7 @@ Lingui translates individual messages much faster, because its messages are prec
 
 ### Behaviour (`pnpm test`)
 
-All 27 tests pass in both apps (9 scenarios × en/pl/ar). Arabic's six plural forms, Polish few/many, RTL and `Intl` formatting produce byte-identical output in both.
+All 37 tests pass in both apps (9 scenarios × en/pl/ar/th, plus a lazy-loading check). Arabic's six plural forms, Polish few/many, Thai's single plural form and Buddhist-calendar dates, RTL, and `Intl` formatting produce byte-identical output in both.
 
 ## Things this repo surfaced in practice
 
@@ -54,6 +55,7 @@ These came up while building the demos. They are the kind of issue that tends to
 4. **Lingui: module-level strings need `msg`.** Calling `` t`...` `` at module scope runs once, in the initial locale. Define module-level strings lazily with `` msg`...` `` and translate them at call time with `i18n._()` (see [validation.ts](apps/lingui-demo/src/validation.ts)). In i18next, calling `i18n.t()` at module scope has the same trap, but the code looks less wrong.
 5. **Lingui: no in-message formatters.** Currency, dates and relative time are formatted in code (`i18n.number`, `i18n.date`, and `Intl.RelativeTimeFormat` directly, since Lingui has no relative-time helper) and then interpolated. i18next's `{{price, currency}}` and `{{days, relativetime(day)}}` keep the format inside the message, so translators can see it.
 6. **Toolchain churn.** `@vitejs/plugin-react` 6 (for Vite 8) dropped its built-in Babel pipeline. Lingui already ships a native macro transform for this, but Lingui will always depend on a build-time transform. react-i18next needs none.
+7. **Lingui: adding a language needs a dev-server restart.** After adding `th` to `lingui.config.ts`, a running `pnpm dev` kept serving English for Thai, because the Vite plugin reads the config only at startup. The tests and a fresh build were correct. With i18next, a new JSON file was picked up straight away.
 
 ## Side-by-side comparison
 

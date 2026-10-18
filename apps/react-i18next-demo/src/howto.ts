@@ -135,7 +135,7 @@ pl → Witaj ponownie, Ada!`,
   "cart_many":  "{{count, number}} produktów w koszyku",
   "cart_other": "{{count, number}} produktu w koszyku"
 }`,
-        note: "In Polish, few covers 2–4, 22–24, … and many covers 5–21, 25–31, …. The Arabic file has six forms.",
+        note: "In Polish, few covers 2–4, 22–24, … and many covers 5–21, 25–31, …. The Arabic file has six forms. Thai has no plural forms, so the Thai file only has cart_zero and cart_other.",
       },
       {
         title: "Use it: ask for the key without a suffix",
@@ -176,6 +176,7 @@ count 5 → en "5 items in your cart"   pl "5 produktów w koszyku"`,
   "liked_female": "{{name}} polubiła twoją recenzję",
   "liked_male":   "{{name}} polubił twoją recenzję"
 }`,
+        note: "Thai verbs don't change with gender, so the Thai file repeats the same sentence in all three keys.",
       },
       {
         title: "Use it: pass the gender as context",
@@ -345,7 +346,7 @@ export function validateEmail(value: string) {
       },
       {
         title: "Use it like any other key",
-        code: `t("untranslated")   // → English text in pl and ar`,
+        code: `t("untranslated")   // → English text in pl, ar and th`,
       },
     ],
   },
