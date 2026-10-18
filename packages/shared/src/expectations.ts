@@ -14,7 +14,7 @@ const FALLBACK = "This sentence has not been translated yet.";
 export interface Expected {
   greeting: string;
   cart: (count: number) => string;
-  liked: (name: string, gender: Gender) => string;
+  updated: (name: string, gender: Gender) => string;
   rich: string;
   total: string;
   ordered: string;
@@ -28,7 +28,7 @@ export const expected: Record<Locale, Expected> = {
     greeting: `Welcome back, ${demo.userName}!`,
     cart: (n) =>
       n === 0 ? "Your cart is empty" : n === 1 ? "1 item in your cart" : `${num("en", n)} items in your cart`,
-    liked: (name) => `${name} liked your review`,
+    updated: (name, gender) => `${name} updated ${{ female: "her", male: "his", other: "their" }[gender]} profile`,
     rich: "Read our terms of service and accept them to continue.",
     total: `Total: ${money("en")}`,
     ordered: `Ordered on ${date("en")}`,
@@ -43,8 +43,8 @@ export const expected: Record<Locale, Expected> = {
       const forms = { one: "produkt", few: "produkty", many: "produktów", other: "produktu" } as const;
       return `${num("pl", n)} ${forms[category("pl", n) as keyof typeof forms]} w koszyku`;
     },
-    liked: (name, gender) =>
-      `${name} ${{ female: "polubiła", male: "polubił", other: "polubił(a)" }[gender]} twoją recenzję`,
+    updated: (name, gender) =>
+      `${name} ${{ female: "zaktualizowała", male: "zaktualizował", other: "zaktualizował(a)" }[gender]} swój profil`,
     rich: "Przeczytaj nasz regulamin i zaakceptuj go, aby kontynuować.",
     total: `Razem: ${money("pl")}`,
     ordered: `Zamówiono ${date("pl")}`,
@@ -62,8 +62,8 @@ export const expected: Record<Locale, Expected> = {
       const word = { few: "منتجات", many: "منتجًا", other: "منتج" }[c as "few" | "many" | "other"];
       return `${num("ar", n)} ${word} في سلتك`;
     },
-    liked: (name, gender) =>
-      `${name} ${{ female: "أعجبت", male: "أعجب", other: "أُعجب/ت" }[gender]} بمراجعتك`,
+    updated: (name, gender) =>
+      `${name} ${{ female: "حدّثت ملفها", male: "حدّث ملفه", other: "حدّث/ت ملفه/ا" }[gender]} الشخصي`,
     rich: "اقرأ شروط الخدمة ووافق عليها للمتابعة.",
     total: `الإجمالي: ${money("ar")}`,
     ordered: `تاريخ الطلب: ${date("ar")}`,
@@ -75,8 +75,8 @@ export const expected: Record<Locale, Expected> = {
     greeting: `ยินดีต้อนรับกลับมา ${demo.userName}!`,
     // Thai has a single plural form; only the zero case gets its own sentence.
     cart: (n) => (n === 0 ? "ตะกร้าของคุณว่างเปล่า" : `มีสินค้า ${num("th", n)} ชิ้นในตะกร้า`),
-    // Thai verbs don't change with gender.
-    liked: (name) => `${name} ถูกใจรีวิวของคุณ`,
+    // Natural Thai says "their own profile" for everyone, so one sentence fits every gender.
+    updated: (name) => `${name} อัปเดตโปรไฟล์ของตัวเอง`,
     rich: "อ่านข้อกำหนดการให้บริการของเรา แล้วยอมรับเพื่อดำเนินการต่อ",
     total: `ยอดรวม: ${money("th")}`,
     // Intl uses the Buddhist calendar for "th": 2026 → 2569.

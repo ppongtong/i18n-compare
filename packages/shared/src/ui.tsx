@@ -1,9 +1,12 @@
 // Library-agnostic chrome. Page chrome stays in English on purpose: only the
 // scenario outputs are translated, so the two apps are easy to compare.
-import { createContext, useContext, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { activity, useActivity, type ActivityKind } from "./activity";
 import { LOCALES, localeDir, type Gender, type Locale } from "./data";
 import { SCENARIOS, type HowTo, type ScenarioId } from "./scenarios";
+import { cardDomId, isEmbedded, listenForShowCard, showInOtherApp } from "./sync";
+
+const OTHER_LIBRARY: Record<string, string> = { "react-i18next": "Lingui", Lingui: "react-i18next" };
 
 const ShellContext = createContext<{ locale: Locale; library: string }>({ locale: "en", library: "" });
 
@@ -45,6 +48,8 @@ export function Shell({
   useEffect(() => {
     document.title = `${library} demo`;
   }, [library]);
+
+  useEffect(listenForShowCard, []);
 
   return (
     <ShellContext.Provider value={{ locale, library }}>
@@ -91,8 +96,10 @@ export function Scenario({ id, howTo, children }: ScenarioProps) {
   const { locale, library } = useContext(ShellContext);
   const { title, description } = SCENARIOS[id];
   return (
-    <section className="scenario" aria-labelledby={`h-${id}`}>
-      <h2 id={`h-${id}`}>{title}</h2>
+    <section className="scenario" id={cardDomId(id)} aria-labelledby={`h-${id}`}>
+      <CardHeading card={id} headingId={`h-${id}`}>
+        {title}
+      </CardHeading>
       <p className="desc">{description}</p>
       {children !== undefined && (
         <div className="output" data-testid={`out-${id}`} lang={locale} dir={localeDir(locale)}>
@@ -116,6 +123,31 @@ export function Scenario({ id, howTo, children }: ScenarioProps) {
         </ol>
       </details>
     </section>
+  );
+}
+
+// A card's heading, plus (inside the side-by-side page) a button that scrolls
+// the other app to the same card.
+function CardHeading({ card, headingId, children }: { card: string; headingId: string; children: ReactNode }) {
+  const { library } = useContext(ShellContext);
+  const [embedded] = useState(isEmbedded);
+  const other = OTHER_LIBRARY[library];
+  // react-i18next is on the left of the side-by-side page, Lingui on the right.
+  const label = library === "react-i18next" ? `Show in ${other} →` : `← Show in ${other}`;
+  return (
+    <div className="card-head">
+      <h2 id={headingId}>{children}</h2>
+      {embedded && other && (
+        <button
+          type="button"
+          className="sync-btn"
+          onClick={() => showInOtherApp(card)}
+          title={`Scroll the ${other} app to this section`}
+        >
+          {label}
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -193,8 +225,10 @@ const KIND_LABEL: Record<ActivityKind, string> = {
 function ActivityPanel({ howItWorks, catalog, locale }: { howItWorks: ReactNode; catalog: CatalogView; locale: Locale }) {
   const groups = useActivity();
   return (
-    <section className="activity" aria-labelledby="h-activity">
-      <h2 id="h-activity">What happens when you change the language</h2>
+    <section className="activity" id={cardDomId("activity")} aria-labelledby="h-activity">
+      <CardHeading card="activity" headingId="h-activity">
+        What happens when you change the language
+      </CardHeading>
       <div className="activity-grid">
         <div className="how">
           <ol>{howItWorks}</ol>

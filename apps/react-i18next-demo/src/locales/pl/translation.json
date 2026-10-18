@@ -8,10 +8,10 @@
     "email": "Podaj prawidłowy adres e-mail."
   },
   "greeting": "Witaj ponownie, {{name}}!",
-  "liked": "{{name}} polubił(a) twoją recenzję",
-  "liked_female": "{{name}} polubiła twoją recenzję",
-  "liked_male": "{{name}} polubił twoją recenzję",
   "ordered": "Zamówiono {{date, datetime}}",
+  "profileUpdated": "{{name}} zaktualizował(a) swój profil",
+  "profileUpdated_female": "{{name}} zaktualizowała swój profil",
+  "profileUpdated_male": "{{name}} zaktualizował swój profil",
   "shipped": "Wysłano {{days, relativetime(day)}}",
   "terms": "Przeczytaj nasz <link>regulamin</link> i <bold>zaakceptuj</bold> go, aby kontynuować.",
   "total": "Razem: {{price, currency}}",

@@ -7,6 +7,7 @@ import {
   currencyOptions,
   dateOptions,
   demo,
+  personFor,
   type Gender,
   type Locale,
 } from "@i18n-compare/shared";
@@ -20,13 +21,13 @@ function CartSummary({ count }: { count: number }) {
   return <Plural value={count} _0="Your cart is empty" one="# item in your cart" other="# items in your cart" />;
 }
 
-function LikedReview({ name, gender }: { name: string; gender: Gender }) {
+function ProfileUpdated({ name, gender }: { name: string; gender: Gender }) {
   return (
     <Select
       value={gender}
-      _female={`${name} liked your review`}
-      _male={`${name} liked your review`}
-      other={`${name} liked your review`}
+      _female={`${name} updated her profile`}
+      _male={`${name} updated his profile`}
+      other={`${name} updated their profile`}
     />
   );
 }
@@ -100,9 +101,9 @@ export function App() {
 
       <Scenario id="select" howTo={howTo.select}>
         <ul>
-          {demo.reviewers.map(({ name, gender }) => (
-            <li key={gender} data-testid={`liked-${gender}`}>
-              <LikedReview name={name} gender={gender} />
+          {demo.people.map(({ name, gender }) => (
+            <li key={gender} data-testid={`updated-${gender}`}>
+              <ProfileUpdated name={name} gender={gender} />
             </li>
           ))}
         </ul>
@@ -136,8 +137,8 @@ export function App() {
         <div data-testid="playground-cart">
           <CartSummary count={count} />
         </div>
-        <div data-testid="playground-liked">
-          <LikedReview name={name} gender={gender} />
+        <div data-testid="playground-updated">
+          <ProfileUpdated name={personFor(gender)} gender={gender} />
         </div>
       </Scenario>
     </Shell>

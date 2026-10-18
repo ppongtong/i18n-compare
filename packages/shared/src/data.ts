@@ -26,7 +26,8 @@ export const demo = {
   userName: "Ada",
   // Chosen to hit every CLDR plural category across en / pl / ar (th has only one).
   cartCounts: [0, 1, 2, 5, 22, 101],
-  reviewers: [
+  // One person per gender, so the gender example always pairs a fitting name.
+  people: [
     { name: "Ada", gender: "female" },
     { name: "Leo", gender: "male" },
     { name: "Sam", gender: "other" },
@@ -39,7 +40,10 @@ export const demo = {
   invalidEmail: "ada@",
 } as const;
 
-export type Gender = (typeof demo.reviewers)[number]["gender"];
+export type Gender = (typeof demo.people)[number]["gender"];
+
+/** The demo person for a gender (Ada, Leo or Sam). */
+export const personFor = (gender: Gender) => demo.people.find((p) => p.gender === gender)!.name;
 
 export const dateOptions: Intl.DateTimeFormatOptions = { dateStyle: "long", timeZone: "UTC" };
 export const currencyOptions: Intl.NumberFormatOptions = { style: "currency", currency: demo.currency };

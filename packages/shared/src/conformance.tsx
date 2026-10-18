@@ -3,7 +3,7 @@
 import type { ReactElement } from "react";
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { LOCALES, demo, type Locale } from "./data";
+import { LOCALES, demo, personFor, type Locale } from "./data";
 import { expected } from "./expectations";
 
 const text = (testId: string, root: HTMLElement = document.body) =>
@@ -58,8 +58,8 @@ export function runConformanceSuite(library: string, renderApp: () => ReactEleme
 
         it("selects by gender (ICU select / i18next context)", async () => {
           await renderIn(renderApp, locale);
-          for (const r of demo.reviewers) {
-            expect(text(`liked-${r.gender}`)).toBe(exp.liked(r.name, r.gender));
+          for (const p of demo.people) {
+            expect(text(`updated-${p.gender}`)).toBe(exp.updated(p.name, p.gender));
           }
         });
 
@@ -97,7 +97,7 @@ export function runConformanceSuite(library: string, renderApp: () => ReactEleme
           fireEvent.change(screen.getByTestId("playground-count"), { target: { value: "3" } });
           fireEvent.change(screen.getByTestId("playground-gender"), { target: { value: "male" } });
           await waitFor(() => expect(text("playground-cart")).toBe(exp.cart(3)));
-          expect(text("playground-liked")).toBe(exp.liked(demo.userName, "male"));
+          expect(text("playground-updated")).toBe(exp.updated(personFor("male"), "male"));
         });
       });
     }

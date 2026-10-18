@@ -25,3 +25,14 @@ for (const locale of locales) {
   group.append(b);
 }
 show("en");
+
+// "Show in …" buttons: pass the request from one app to the other, so the same
+// section lines up in both. Only messages from our own two frames are relayed.
+const frames = [document.getElementById("left"), document.getElementById("right")];
+window.addEventListener("message", (event) => {
+  if (event.data?.type !== "i18n-compare:show-card") return;
+  const from = frames.find((f) => f.contentWindow === event.source);
+  if (!from) return;
+  const to = frames.find((f) => f !== from);
+  to.contentWindow.postMessage(event.data, new URL(to.src, location.href).origin);
+});

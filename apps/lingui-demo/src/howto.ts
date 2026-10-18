@@ -161,34 +161,34 @@ count 5 → en "5 items in your cart"   pl "5 produktów w koszyku"`,
       "A <Select> holds every variant in one message and picks one by the value you pass. Translators see all variants together.",
     steps: [
       {
-        title: "Write the variants in the component",
+        title: "Write the English variants in the component",
         file: "src/App.tsx",
         code: `import { Select } from "@lingui/react/macro";
 
-function LikedReview({ name, gender }: { name: string; gender: string }) {
+function ProfileUpdated({ name, gender }: { name: string; gender: string }) {
   return (
     <Select
       value={gender}
-      _female={\`\${name} liked your review\`}  // when gender is "female"
-      _male={\`\${name} liked your review\`}    // when gender is "male"
-      other={\`\${name} liked your review\`}    // anything else
+      _female={\`\${name} updated her profile\`}   // when gender is "female"
+      _male={\`\${name} updated his profile\`}     // when gender is "male"
+      other={\`\${name} updated their profile\`}   // anything else
     />
   );
 }`,
       },
       extractStep,
       {
-        title: "Polish: each variant is different",
+        title: "Polish: the verb changes too",
         file: "src/locales/pl.po",
-        code: `msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
-msgstr "{gender, select, female {{name} polubiła twoją recenzję} male {{name} polubił twoją recenzję} other {{name} polubił(a) twoją recenzję}}"`,
+        code: `msgid "{gender, select, female {{name} updated her profile} male {{name} updated his profile} other {{name} updated their profile}}"
+msgstr "{gender, select, female {{name} zaktualizowała swój profil} male {{name} zaktualizował swój profil} other {{name} zaktualizował(a) swój profil}}"`,
       },
       {
         title: "Thai: the translator can drop the select entirely",
         file: "src/locales/th.po",
-        code: `msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
-msgstr "{name} ถูกใจรีวิวของคุณ"`,
-        note: "Thai verbs don't change with gender, so one plain sentence covers every case. ICU lets each language use only the structure it needs.",
+        code: `msgid "{gender, select, female {{name} updated her profile} male {{name} updated his profile} other {{name} updated their profile}}"
+msgstr "{name} อัปเดตโปรไฟล์ของตัวเอง"`,
+        note: 'Thai naturally says "their own profile" for everyone, so one plain sentence covers every case. ICU lets each language use only the structure it needs.',
       },
     ],
   },
@@ -347,11 +347,13 @@ msgstr ""`,
         file: "src/App.tsx",
         code: `const [count, setCount] = useState(1);
 const [gender, setGender] = useState("female");
+// Ada, Leo or Sam, so the name fits the chosen gender
+const name = personFor(gender);
 
 return (
   <>
     <CartSummary count={count} />
-    <LikedReview name="Ada" gender={gender} />
+    <ProfileUpdated name={name} gender={gender} />
   </>
 );`,
         note: "Reusing the same components matters. <Plural value={n}> and <Plural value={count}> would extract as two different messages to translate, because the variable name is part of the message.",

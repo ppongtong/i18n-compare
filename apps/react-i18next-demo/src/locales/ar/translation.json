@@ -9,10 +9,10 @@
     "email": "يرجى إدخال عنوان بريد إلكتروني صالح."
   },
   "greeting": "مرحبًا بعودتك، {{name}}!",
-  "liked": "{{name}} أُعجب/ت بمراجعتك",
-  "liked_female": "{{name}} أعجبت بمراجعتك",
-  "liked_male": "{{name}} أعجب بمراجعتك",
   "ordered": "تاريخ الطلب: {{date, datetime}}",
+  "profileUpdated": "{{name}} حدّث/ت ملفه/ا الشخصي",
+  "profileUpdated_female": "{{name}} حدّثت ملفها الشخصي",
+  "profileUpdated_male": "{{name}} حدّث ملفه الشخصي",
   "shipped": "تم الشحن {{days, relativetime(day)}}",
   "terms": "اقرأ <link>شروط الخدمة</link> و<bold>وافق</bold> عليها للمتابعة.",
   "total": "الإجمالي: {{price, currency}}",

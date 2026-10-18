@@ -12,7 +12,7 @@ export default defineConfig({
     defaultNS: "translation",
     primaryLanguage: "en",
     // Static analysis can't see dynamic `context: gender` values, so without this
-    // extract would delete liked_female / liked_male.
-    preservePatterns: ["liked_*"],
+    // extract would delete profileUpdated_female / profileUpdated_male.
+    preservePatterns: ["profileUpdated_*"],
   },
 });

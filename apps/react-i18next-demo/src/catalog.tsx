@@ -22,7 +22,7 @@ export function catalogView(locale: Locale): CatalogView {
         </li>
         <li>
           <strong>Each plural or gender form is its own key</strong> (<code>cart_one</code>, <code>cart_few</code>,{" "}
-          <code>liked_female</code>, …).
+          <code>profileUpdated_female</code>, …).
         </li>
         <li>
           <strong>The work happens in the browser on every</strong> <code>t()</code> <strong>call:</strong> i18next

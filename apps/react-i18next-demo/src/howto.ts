@@ -156,36 +156,43 @@ count 5 → en "5 items in your cart"   pl "5 produktów w koszyku"`,
 
   select: {
     summary:
-      'i18next calls this "context". Each variant is its own key with a suffix (_female, _male). If no matching key exists, the plain key is used.',
+      'i18next calls this "context". Each variant is its own key with a suffix (_female, _male). If there is no key for a value, the plain key is used.',
     steps: [
       {
-        title: "English: the variants are identical, but they must exist",
+        title: "English: her / his / their",
         file: "src/locales/en/translation.json",
         code: `{
-  "liked":        "{{name}} liked your review",
-  "liked_female": "{{name}} liked your review",
-  "liked_male":   "{{name}} liked your review"
+  "profileUpdated":        "{{name}} updated their profile",
+  "profileUpdated_female": "{{name}} updated her profile",
+  "profileUpdated_male":   "{{name}} updated his profile"
 }`,
-        note: "They exist so the extract tool and translators know other languages need them.",
+        note: 'The plain key is the fallback, so it uses "their".',
       },
       {
-        title: "Polish: each variant is different",
+        title: "Polish: the verb changes too",
         file: "src/locales/pl/translation.json",
         code: `{
-  "liked":        "{{name}} polubił(a) twoją recenzję",
-  "liked_female": "{{name}} polubiła twoją recenzję",
-  "liked_male":   "{{name}} polubił twoją recenzję"
+  "profileUpdated":        "{{name}} zaktualizował(a) swój profil",
+  "profileUpdated_female": "{{name}} zaktualizowała swój profil",
+  "profileUpdated_male":   "{{name}} zaktualizował swój profil"
 }`,
-        note: "Thai verbs don't change with gender, so the Thai file repeats the same sentence in all three keys.",
+      },
+      {
+        title: "Thai: one sentence is enough",
+        file: "src/locales/th/translation.json",
+        code: `{
+  "profileUpdated": "{{name}} อัปเดตโปรไฟล์ของตัวเอง"
+}`,
+        note: 'Thai naturally says "their own profile" for everyone. With no _female or _male key in Thai, i18next uses the plain Thai key for every gender.',
       },
       {
         title: "Use it: pass the gender as context",
         file: "src/App.tsx",
-        code: `// "female" → looks up liked_female
-t("liked", { name: "Ada", context: "female" })
+        code: `// "female" → looks up profileUpdated_female
+t("profileUpdated", { name: "Ada", context: "female" })   // Ada updated her profile
 
-// "other" has no liked_other key → falls back to plain "liked"
-t("liked", { name: "Sam", context: "other" })`,
+// "other" has no profileUpdated_other key → falls back to plain "profileUpdated"
+t("profileUpdated", { name: "Sam", context: "other" })    // Sam updated their profile`,
       },
       {
         title: "Tell the extract tool to keep these keys",
@@ -193,7 +200,7 @@ t("liked", { name: "Sam", context: "other" })`,
         code: `extract: {
   // The gender comes from a variable, so the tool can't see which
   // variants are used. Without this line it would delete them.
-  preservePatterns: ["liked_*"],
+  preservePatterns: ["profileUpdated_*"],
 }`,
       },
     ],
@@ -361,11 +368,13 @@ export function validateEmail(value: string) {
         code: `const { t } = useTranslation();
 const [count, setCount] = useState(1);
 const [gender, setGender] = useState("female");
+// Ada, Leo or Sam, so the name fits the chosen gender
+const name = personFor(gender);
 
 return (
   <>
     <p>{t("cart", { count })}</p>
-    <p>{t("liked", { name: "Ada", context: gender })}</p>
+    <p>{t("profileUpdated", { name, context: gender })}</p>
   </>
 );`,
       },

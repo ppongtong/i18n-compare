@@ -8,6 +8,7 @@ import {
   dateOptions,
   demo,
   isLocale,
+  personFor,
   SOURCE_LOCALE,
   type Gender,
   type Locale,
@@ -81,9 +82,9 @@ export function App() {
 
       <Scenario id="select" howTo={howTo.select}>
         <ul>
-          {demo.reviewers.map((r) => (
-            <li key={r.gender} data-testid={`liked-${r.gender}`}>
-              {t("liked", { name: r.name, context: r.gender })}
+          {demo.people.map((p) => (
+            <li key={p.gender} data-testid={`updated-${p.gender}`}>
+              {t("profileUpdated", { name: p.name, context: p.gender })}
             </li>
           ))}
         </ul>
@@ -117,7 +118,9 @@ export function App() {
       <Scenario id="playground" howTo={howTo.playground}>
         <PlaygroundControls count={count} onCountChange={setCount} gender={gender} onGenderChange={setGender} />
         <div data-testid="playground-cart">{t("cart", { count })}</div>
-        <div data-testid="playground-liked">{t("liked", { name: demo.userName, context: gender })}</div>
+        <div data-testid="playground-updated">
+          {t("profileUpdated", { name: personFor(gender), context: gender })}
+        </div>
       </Scenario>
     </Shell>
   );

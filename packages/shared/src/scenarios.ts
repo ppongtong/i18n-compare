@@ -18,7 +18,7 @@ export const SCENARIOS = {
   select: {
     title: "3. Text that depends on gender",
     description:
-      "In Polish and Arabic the verb changes with the person's gender. English and Thai stay the same, but the app must still allow for it.",
+      "The sentence changes with the person's gender: her, his or their profile in English. Polish and Arabic also change the verb, while Thai uses one sentence for everyone.",
   },
   rich: {
     title: "4. A link and bold text inside a sentence",

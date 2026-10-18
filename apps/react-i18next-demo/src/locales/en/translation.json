@@ -6,10 +6,10 @@
     "email": "Please enter a valid email address."
   },
   "greeting": "Welcome back, {{name}}!",
-  "liked": "{{name}} liked your review",
-  "liked_female": "{{name}} liked your review",
-  "liked_male": "{{name}} liked your review",
   "ordered": "Ordered on {{date, datetime}}",
+  "profileUpdated": "{{name}} updated their profile",
+  "profileUpdated_female": "{{name}} updated her profile",
+  "profileUpdated_male": "{{name}} updated his profile",
   "shipped": "Shipped {{days, relativetime(day)}}",
   "terms": "Read our <link>terms of service</link> and <bold>accept</bold> them to continue.",
   "total": "Total: {{price, currency}}",
