@@ -1,0 +1,27 @@
+{
+  "name": "@i18n-compare/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Library-agnostic UI shell, demo data and the conformance test suite both demo apps must pass.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./conformance": "./src/conformance.tsx",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@testing-library/react": "*",
+    "react": "*",
+    "vitest": "*"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.2.0",
+    "react": "^19.3.1",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

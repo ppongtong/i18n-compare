@@ -1,0 +1,154 @@
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --text: #1c1d1f;
+  --muted: #5f6368;
+  --border: #e2e2de;
+  --code-bg: #f1f1ee;
+  --teal: #0f7f74;
+  --violet: #6b4fd8;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141517;
+    --surface: #1c1e21;
+    --text: #e8e8e6;
+    --muted: #a0a4a8;
+    --border: #2e3135;
+    --code-bg: #24272b;
+    --teal: #4fc3b5;
+    --violet: #a993ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", "Noto Sans", "Noto Sans Arabic", sans-serif;
+}
+
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+.accent-teal { --accent: var(--teal); }
+.accent-violet { --accent: var(--violet); }
+
+.shell-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 3px solid var(--accent);
+}
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  margin: 2px 0 4px;
+  font-size: 28px;
+  color: var(--accent);
+}
+.tagline {
+  margin: 0;
+  color: var(--muted);
+  max-width: 48ch;
+}
+
+.locale-picker {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+select,
+input {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  max-width: 100%;
+}
+.status {
+  font-variant-numeric: tabular-nums;
+}
+
+.scenarios {
+  display: grid;
+  gap: 16px;
+}
+.scenario {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  min-width: 0;
+}
+.scenario h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.desc {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.output {
+  font-size: 17px;
+  padding: 12px;
+  border-inline-start: 3px solid var(--accent);
+  background: var(--code-bg);
+  border-radius: 4px;
+}
+.output ul {
+  margin: 0;
+  padding-inline-start: 20px;
+}
+.output a {
+  color: var(--accent);
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.controls label {
+  display: grid;
+  gap: 2px;
+}
+details {
+  margin-top: 10px;
+}
+summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+}
+pre {
+  overflow-x: auto;
+  background: var(--code-bg);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}

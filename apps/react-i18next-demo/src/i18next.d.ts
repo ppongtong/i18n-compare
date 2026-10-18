@@ -1,0 +1,10 @@
+// Makes t() keys and <Trans i18nKey> type-checked against the English catalog.
+import "i18next";
+import type en from "./locales/en/translation.json";
+
+declare module "i18next" {
+  interface CustomTypeOptions {
+    defaultNS: "translation";
+    resources: { translation: typeof en };
+  }
+}

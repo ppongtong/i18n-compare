@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+allowBuilds:
+  '@swc/core': false
+minimumReleaseAgeExclude:
+  - i18next-cli@1.77.0
+  - i18next@26.5.2
+  - react-i18next@17.1.0

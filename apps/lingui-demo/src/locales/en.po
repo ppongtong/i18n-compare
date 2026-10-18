@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-18 09:36-0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/App.tsx:18
+msgid "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
+msgstr "{count, plural, =0 {Your cart is empty} one {# item in your cart} other {# items in your cart}}"
+
+#: src/App.tsx:23
+msgid "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
+msgstr "{gender, select, female {{name} liked your review} male {{name} liked your review} other {{name} liked your review}}"
+
+#: src/App.tsx:151
+msgid "Ordered on {ordered}"
+msgstr "Ordered on {ordered}"
+
+#: src/validation.ts:7
+msgid "Please enter a valid email address."
+msgstr "Please enter a valid email address."
+
+#: src/App.tsx:124
+msgid "Read our <0>terms of service</0> and <1>accept</1> them to continue."
+msgstr "Read our <0>terms of service</0> and <1>accept</1> them to continue."
+
+#: src/App.tsx:152
+msgid "Shipped {shipped}"
+msgstr "Shipped {shipped}"
+
+#: src/App.tsx:178
+msgid "This sentence has not been translated yet."
+msgstr "This sentence has not been translated yet."
+
+#: src/App.tsx:137
+msgid "Total: {total}"
+msgstr "Total: {total}"
+
+#: src/App.tsx:71
+msgid "Welcome back, {name}!"
+msgstr "Welcome back, {name}!"

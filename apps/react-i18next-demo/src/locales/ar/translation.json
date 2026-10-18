@@ -1,0 +1,20 @@
+{
+  "cart_zero": "سلتك فارغة",
+  "cart_one": "منتج واحد في سلتك",
+  "cart_two": "منتجان في سلتك",
+  "cart_few": "{{count, number}} منتجات في سلتك",
+  "cart_many": "{{count, number}} منتجًا في سلتك",
+  "cart_other": "{{count, number}} منتج في سلتك",
+  "errors": {
+    "email": "يرجى إدخال عنوان بريد إلكتروني صالح."
+  },
+  "greeting": "مرحبًا بعودتك، {{name}}!",
+  "liked": "{{name}} أُعجب/ت بمراجعتك",
+  "liked_female": "{{name}} أعجبت بمراجعتك",
+  "liked_male": "{{name}} أعجب بمراجعتك",
+  "ordered": "تاريخ الطلب: {{date, datetime}}",
+  "shipped": "تم الشحن {{days, relativetime(day)}}",
+  "terms": "اقرأ <link>شروط الخدمة</link> و<bold>وافق</bold> عليها للمتابعة.",
+  "total": "الإجمالي: {{price, currency}}",
+  "untranslated": ""
+}

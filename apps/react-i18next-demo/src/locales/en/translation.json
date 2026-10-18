@@ -1,0 +1,17 @@
+{
+  "cart_zero": "Your cart is empty",
+  "cart_one": "{{count, number}} item in your cart",
+  "cart_other": "{{count, number}} items in your cart",
+  "errors": {
+    "email": "Please enter a valid email address."
+  },
+  "greeting": "Welcome back, {{name}}!",
+  "liked": "{{name}} liked your review",
+  "liked_female": "{{name}} liked your review",
+  "liked_male": "{{name}} liked your review",
+  "ordered": "Ordered on {{date, datetime}}",
+  "shipped": "Shipped {{days, relativetime(day)}}",
+  "terms": "Read our <link>terms of service</link> and <bold>accept</bold> them to continue.",
+  "total": "Total: {{price, currency}}",
+  "untranslated": "This sentence has not been translated yet."
+}

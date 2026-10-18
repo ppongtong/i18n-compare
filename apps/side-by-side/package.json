@@ -1,0 +1,11 @@
+{
+  "name": "side-by-side",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5100 --strictPort"
+  },
+  "devDependencies": {
+    "vite": "^8.0.0"
+  }
+}

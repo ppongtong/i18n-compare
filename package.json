@@ -1,0 +1,20 @@
+{
+  "name": "i18n-compare",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "build": "pnpm --filter \"./apps/*\" build",
+    "test": "pnpm --filter \"./apps/*\" test",
+    "typecheck": "pnpm -r typecheck",
+    "bench": "pnpm --workspace-concurrency=1 --filter \"./apps/*\" bench",
+    "compare:size": "node scripts/compare-size.mjs",
+    "i18n:extract": "pnpm --filter \"./apps/*\" i18n:extract",
+    "i18n:status": "pnpm --filter react-i18next-demo i18n:status"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0"
+  }
+}

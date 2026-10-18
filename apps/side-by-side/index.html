@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>i18n side by side</title>
+    <style>
+      :root {
+        --bg: #f7f7f5;
+        --surface: #ffffff;
+        --text: #1c1d1f;
+        --muted: #5f6368;
+        --border: #e2e2de;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #141517;
+          --surface: #1c1e21;
+          --text: #e8e8e6;
+          --muted: #a0a4a8;
+          --border: #2e3135;
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+      header strong { margin-inline-end: auto; }
+      button {
+        font: inherit;
+        color: var(--text);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 12px;
+        cursor: pointer;
+      }
+      button[aria-pressed="true"] { border-color: currentColor; font-weight: 600; }
+      .hint { color: var(--muted); font-size: 12px; }
+      main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+      iframe { width: 100%; height: 100%; border: 0; border-inline-end: 1px solid var(--border); background: var(--bg); }
+      @media (max-width: 900px) {
+        main { grid-template-columns: 1fr; grid-auto-rows: 80vh; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>react-i18next vs Lingui</strong>
+      <span class="hint">Both apps must be running (<code>pnpm dev</code>). Locale:</span>
+      <div id="locales" role="group" aria-label="Locale"></div>
+    </header>
+    <main>
+      <iframe id="left" title="react-i18next demo"></iframe>
+      <iframe id="right" title="Lingui demo"></iframe>
+    </main>
+    <script type="module">
+      const apps = { left: "http://localhost:5101/", right: "http://localhost:5102/" };
+      const locales = ["en", "pl", "ar"];
+      const group = document.getElementById("locales");
+
+      function show(locale) {
+        for (const [id, url] of Object.entries(apps)) {
+          document.getElementById(id).src = `${url}?locale=${locale}`;
+        }
+        for (const b of group.children) b.setAttribute("aria-pressed", String(b.dataset.locale === locale));
+      }
+
+      for (const locale of locales) {
+        const b = document.createElement("button");
+        b.textContent = locale;
+        b.dataset.locale = locale;
+        b.addEventListener("click", () => show(locale));
+        group.append(b);
+      }
+      show("en");
+    </script>
+  </body>
+</html>
