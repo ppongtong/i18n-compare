@@ -24,9 +24,9 @@ Measured on 2026-10-18 with i18next 26.5 + react-i18next 17.1, and Lingui 6.10 u
 | | react-i18next | Lingui |
 |---|---|---|
 | Library runtime only (React excluded) | **22.3 kB** | **4.2 kB** |
-| Demo app initial JS (incl. React 19, en catalog and the demo's explanation text) | 94.9 kB | 78.4 kB |
+| Demo app initial JS (incl. React 19, en catalog and the demo's explanation text) | 96.1 kB | 79.6 kB |
 | Lazy `pl` catalog | 0.5 kB | 0.5 kB |
-| Lazy `ar` catalog | 0.6 kB | 0.5 kB |
+| Lazy `ar` catalog | 0.6 kB | 0.6 kB |
 | Lazy `th` catalog | 0.6 kB | 0.5 kB |
 
 Lingui's runtime is about 18 kB gzip smaller. This is a fixed cost and does not grow with your app. The macros compile to `i18n._(id)` calls, and the message parser runs at build time.

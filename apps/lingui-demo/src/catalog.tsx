@@ -13,10 +13,12 @@ function toIcu(message: unknown): string {
       const [name, type, options] = token as [string, string?, Record<string, unknown>?];
       if (!type) return `{${name}}`;
       if (!options) return `{${name}, ${type}}`;
+      const offsetStr = typeof options.offset === "number" ? `offset:${options.offset} ` : "";
       const branches = Object.entries(options)
+        .filter(([key]) => key !== "offset")
         .map(([key, value]) => `${/^\d+$/.test(key) ? `=${key}` : key} {${toIcu(value)}}`)
         .join(" ");
-      return `{${name}, ${type}, ${branches}}`;
+      return `{${name}, ${type}, ${offsetStr}${branches}}`;
     })
     .join("");
 }
@@ -25,7 +27,9 @@ export function catalogView(): CatalogView {
   const messages = i18n.messages;
   const entries = Object.entries(messages).map(
     ([id, compiled]) =>
-      `  // en: ${toIcu(sourceMessages[id])}\n  ${JSON.stringify(id)}: ${JSON.stringify(compiled)}`,
+      `  // en: ${sourceMessages[id] !== undefined ? toIcu(sourceMessages[id]) : "(source text unavailable)"}\n  ${JSON.stringify(
+        id,
+      )}: ${JSON.stringify(compiled)}`,
   );
   return {
     code: `{\n${entries.join(",\n")}\n}`,

@@ -10,6 +10,10 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { brotliCompressSync, gzipSync } from "node:zlib";
 import { build } from "vite";
+import { LOCALES, SOURCE_LOCALE } from "../packages/shared/src/data.ts";
+
+const nonSource = LOCALES.map((l) => l.code).filter((c) => c !== SOURCE_LOCALE);
+const localeRegex = new RegExp(`locales/(${nonSource.join("|")})\\b`);
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -89,7 +93,7 @@ function appSizes(app) {
 
   const locales = {};
   for (const [key, chunk] of Object.entries(manifest)) {
-    const m = key.match(/locales\/(pl|ar|th)\b/);
+    const m = key.match(localeRegex);
     if (m && chunk.isDynamicEntry) locales[m[1]] = file(key);
   }
   return { initial: sum([...initial].map(file)), locales };
@@ -114,9 +118,9 @@ const report = [
   `|---|${rows.map(() => "---").join("|")}|`,
   line("Library runtime only", (r) => r.runtime),
   line("Demo app initial JS (incl. React + en catalog)", (r) => r.initial),
-  line("Lazy `pl` catalog chunk", (r) => r.locales.pl),
-  line("Lazy `ar` catalog chunk", (r) => r.locales.ar),
-  line("Lazy `th` catalog chunk", (r) => r.locales.th),
+  ...nonSource.map((code) =>
+    line(`Lazy \`${code}\` catalog chunk`, (r) => r.locales[code] ?? { raw: 0, gzip: 0, brotli: 0 }),
+  ),
   "",
   "Brotli: " +
     rows.map((r) => `${r.app.name} runtime ${kb(r.runtime.brotli)}, initial ${kb(r.initial.brotli)}`).join("; ") +

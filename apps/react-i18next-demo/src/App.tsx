@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import {
   PlaygroundControls,
@@ -21,15 +21,27 @@ import { validateEmail } from "./validation";
 export function App() {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null);
+  const activeRequestRef = useRef(0);
   const [count, setCount] = useState(1);
   const [gender, setGender] = useState<Gender>("female");
 
   const locale: Locale = isLocale(i18n.resolvedLanguage ?? "") ? (i18n.resolvedLanguage as Locale) : SOURCE_LOCALE;
 
   async function changeLocale(next: Locale) {
+    const reqId = ++activeRequestRef.current;
+    setSelectedLocale(next);
     setLoading(true);
-    await switchLocale(next);
-    setLoading(false);
+    try {
+      await switchLocale(next);
+    } catch (err) {
+      console.error(`Failed to switch locale "${next}":`, err);
+    } finally {
+      if (activeRequestRef.current === reqId) {
+        setLoading(false);
+        setSelectedLocale(null);
+      }
+    }
   }
 
   return (
@@ -37,7 +49,7 @@ export function App() {
       library="react-i18next"
       accent="teal"
       tagline="You give each sentence a key and keep the text in one JSON file per language. Components look up text by key while the app runs."
-      locale={locale}
+      locale={selectedLocale ?? locale}
       onLocaleChange={changeLocale}
       loading={loading}
       catalog={catalogView(locale)}

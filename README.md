@@ -66,13 +66,13 @@ reports/                generated output
 
 - `packages/shared/src/expectations.ts` is the single source of truth for what every scenario must render in every locale.
 - `packages/shared/src/conformance.tsx` is the suite. Each app's `App.test.tsx` is a single line that runs it.
-- Both apps bundle `en` and lazy-load `pl` and `ar` as separate chunks. The page chrome is identical and stays in English; only the scenario outputs are translated.
+- Both apps bundle `en` and lazy-load `pl`, `ar` and `th` as separate chunks. The page chrome is identical and stays in English; only the scenario outputs are translated.
 
 ## Try it yourself
 
 These are the exercises that tell you most about day-to-day developer experience. Do each one in both apps:
 
 1. **Add a new message.** In react-i18next: add a key to `en/translation.json`, call `t("newKey")`, then run `pnpm i18n:extract`. In Lingui: write ``t`New message` `` and run `pnpm i18n:extract`.
-2. **Change the English wording** of an existing message, then run extract again. Watch what happens to the existing pl/ar translations.
+2. **Change the English wording** of an existing message, then run extract again. Watch what happens to the existing pl/ar/th translations.
 3. **Add a locale** (for example `de`) to `LOCALES` in `packages/shared/src/data.ts`, to each library's config, and to `expectations.ts`.
 4. **Make a typo** in a key or a variable name and see which tool catches it: `tsc`, extract, the tests, or nothing.

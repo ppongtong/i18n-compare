@@ -51,7 +51,8 @@ export const activity = {
   getSnapshot: () => groups,
 };
 
-export const useActivity = () => useSyncExternalStore(activity.subscribe, activity.getSnapshot);
+export const useActivity = () =>
+  useSyncExternalStore(activity.subscribe, activity.getSnapshot, activity.getSnapshot);
 
 const resourceEntries = () =>
   typeof performance.getEntriesByType === "function"
@@ -63,9 +64,12 @@ export async function trackRequests<T>(load: () => Promise<T>, add: (kind: Activ
   const before = resourceEntries().length;
   const started = performance.now();
   const result = await load();
-  const requests = resourceEntries().slice(before);
+  const base = typeof window !== "undefined" ? window.location.href : "http://localhost/";
+  const requests = resourceEntries()
+    .slice(before)
+    .filter((r) => /\.(po|json|js)(\?.*)?$/.test(r.name));
   for (const r of requests) {
-    const url = new URL(r.name);
+    const url = new URL(r.name, base);
     const size = r.transferSize === 0 && r.decodedBodySize > 0 ? "from browser cache" : `${(r.transferSize / 1024).toFixed(1)} kB`;
     add("request", `GET ${url.pathname}${url.search} · ${size} · ${Math.round(r.duration)} ms`);
   }

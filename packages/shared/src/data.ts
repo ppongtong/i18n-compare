@@ -15,6 +15,7 @@ export const isLocale = (value: string): value is Locale =>
 
 /** `?locale=pl` support, used by the side-by-side viewer to keep both apps in sync. */
 export const localeFromUrl = (): Locale | null => {
+  if (typeof window === "undefined" || !window.location) return null;
   const value = new URLSearchParams(window.location.search).get("locale");
   return value && isLocale(value) ? value : null;
 };

@@ -17,7 +17,8 @@ pnpm add -D i18next-cli   # optional: finds keys in your code, reports missing o
         code: `src/locales/
   en/translation.json   // English: shipped with the app
   pl/translation.json   // Polish: downloaded when the user picks it
-  ar/translation.json   // Arabic: same`,
+  ar/translation.json   // Arabic: same
+  th/translation.json   // Thai: same`,
         note: "Every file has the same keys. Only the text differs.",
       },
       {

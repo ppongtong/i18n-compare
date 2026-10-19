@@ -21,12 +21,16 @@ async function switchTo(locale: Locale) {
   await waitFor(() => expect(text("out-greeting")).toBe(expected[locale].greeting));
 }
 
-export function runConformanceSuite(library: string, renderApp: () => ReactElement) {
+export function runConformanceSuite(
+  library: string,
+  renderApp: () => ReactElement,
+  reset?: () => void,
+) {
   describe(`${library} — conformance`, () => {
     afterEach(cleanup);
 
-    // Must run first: it relies on "pl" not having been loaded by an earlier test.
     it("loads a catalog on first use only, then serves it from memory", async () => {
+      reset?.();
       await renderIn(renderApp, "pl");
       await switchTo("en");
       await switchTo("pl");

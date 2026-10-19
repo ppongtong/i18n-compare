@@ -1,8 +1,10 @@
 // Keeps both apps on the same card in the side-by-side page. An app posts a
 // message to the parent page, which relays it to the other app's iframe.
 // Messages carry only a card name and a position, nothing sensitive.
+import type { Locale } from "./data";
 
 const SYNC_MESSAGE = "i18n-compare:show-card";
+const LOCALE_MESSAGE = "i18n-compare:locale-change";
 
 interface SyncMessage {
   type: typeof SYNC_MESSAGE;
@@ -22,6 +24,28 @@ export const cardDomId = (card: string) => `card-${card}`;
 const findCard = (card: string) => (/^[a-z]+$/.test(card) ? document.getElementById(cardDomId(card)) : null);
 const cardDetails = (el: HTMLElement) => el.querySelector<HTMLDetailsElement>(":scope > details");
 
+function getParentOrigin(): string {
+  if (typeof location !== "undefined" && "ancestorOrigins" in location && location.ancestorOrigins?.length) {
+    const origin = location.ancestorOrigins[0];
+    if (origin && origin !== "null") return origin;
+  }
+  if (typeof document !== "undefined" && document.referrer) {
+    try {
+      const origin = new URL(document.referrer).origin;
+      if (origin && origin !== "null") return origin;
+    } catch {
+      // Fall back to wildcard if referrer is unparseable
+    }
+  }
+  return "*";
+}
+
+/** Notifies the side-by-side parent toolbar that the active locale changed. */
+export function notifyParentLocaleChange(locale: Locale) {
+  if (!isEmbedded()) return;
+  window.parent.postMessage({ type: LOCALE_MESSAGE, locale }, getParentOrigin());
+}
+
 /** Asks the other app to show `card` at the same height as it is shown here. */
 export function showInOtherApp(card: string) {
   const el = findCard(card);
@@ -32,13 +56,15 @@ export function showInOtherApp(card: string) {
     offset: el.getBoundingClientRect().top,
     open: cardDetails(el)?.open ?? false,
   };
-  window.parent.postMessage(message, "*");
+  window.parent.postMessage(message, getParentOrigin());
 }
 
 /** Scrolls to a card when the parent page relays a request from the other app. Returns a cleanup function. */
 export function listenForShowCard() {
   const onMessage = (event: MessageEvent) => {
     if (event.source !== window.parent) return;
+    const expectedOrigin = getParentOrigin();
+    if (expectedOrigin !== "*" && event.origin !== expectedOrigin) return;
     const data = event.data as Partial<SyncMessage> | null;
     if (data?.type !== SYNC_MESSAGE || typeof data.card !== "string" || typeof data.offset !== "number") return;
     const el = findCard(data.card);

@@ -6,6 +6,7 @@ import en from "./locales/en/translation.json";
 
 // Every catalog except the bundled source locale becomes its own lazy chunk.
 const lazyCatalogs = import.meta.glob(["./locales/*/*.json", "!./locales/en/*.json"]);
+let currentSeq = 0;
 
 i18n
   .use(initReactI18next)
@@ -31,6 +32,7 @@ activity.begin("i18n.init()", "page load")(
 
 /** Loads a locale's catalog if needed, then switches to it. Logs each step for the UI. */
 export async function switchLocale(locale: Locale, source = "dropdown") {
+  const seq = ++currentSeq;
   const add = activity.begin(`changeLanguage("${locale}")`, source);
   if (locale === SOURCE_LOCALE) {
     add("bundled", '"en" is bundled in the main JS. No request.');
@@ -40,8 +42,25 @@ export async function switchLocale(locale: Locale, source = "dropdown") {
     add("fetch", `"${locale}" is not in the store yet, so the backend loads ${locale}/translation.json:`);
     await trackRequests(() => i18n.loadLanguages(locale), add);
   }
+  if (seq !== currentSeq) {
+    add("cached", `"${locale}" completed but superseded by newer switch. Skipped.`);
+    return;
+  }
   await i18n.changeLanguage(locale);
   add("activated", "i18next fires languageChanged; every useTranslation() component re-renders. No page reload.");
+}
+
+export function resetLoadedLocales() {
+  i18n.options.preload = [];
+  const state = (i18n.services?.backendConnector as { state?: Record<string, unknown> } | undefined)?.state;
+  for (const { code } of LOCALES) {
+    if (code !== SOURCE_LOCALE) {
+      delete i18n.store.data[code];
+      if (state) delete state[`${code}|translation`];
+    }
+  }
+  void i18n.changeLanguage(SOURCE_LOCALE);
+  activity.clear();
 }
 
 export default i18n;

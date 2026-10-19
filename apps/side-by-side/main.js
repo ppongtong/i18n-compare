@@ -30,9 +30,17 @@ show("en");
 // section lines up in both. Only messages from our own two frames are relayed.
 const frames = [document.getElementById("left"), document.getElementById("right")];
 window.addEventListener("message", (event) => {
-  if (event.data?.type !== "i18n-compare:show-card") return;
   const from = frames.find((f) => f.contentWindow === event.source);
   if (!from) return;
+  if (event.data?.type === "i18n-compare:locale-change") {
+    const next = event.data.locale;
+    for (const b of group.children) {
+      b.setAttribute("aria-pressed", String(b.dataset.locale === next));
+    }
+    return;
+  }
+  if (event.data?.type !== "i18n-compare:show-card") return;
   const to = frames.find((f) => f !== from);
-  to.contentWindow.postMessage(event.data, new URL(to.src, location.href).origin);
+  const targetOrigin = new URL(to.src, location.href).origin;
+  to.contentWindow?.postMessage(event.data, targetOrigin === "null" ? "*" : targetOrigin);
 });

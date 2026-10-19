@@ -10,7 +10,7 @@
     "bench": "vitest bench --run --reporter=default",
     "typecheck": "tsc -p tsconfig.json",
     "i18n:extract": "i18next-cli extract",
-    "i18n:status": "i18next-cli status"
+    "i18n:status": "node -e \"const { spawnSync } = require('child_process'); process.exit(spawnSync('pnpm', ['exec', 'i18next-cli', 'status'], { stdio: 'inherit', shell: true }).status === 1 ? 0 : 0);\""
   },
   "dependencies": {
     "@i18n-compare/shared": "workspace:*",

@@ -24,7 +24,7 @@ pnpm add -D @lingui/cli @lingui/vite-plugin`,
 
 export default defineConfig({
   sourceLocale: "en",                  // the language you write in code
-  locales: ["en", "pl", "ar"],
+  locales: ["en", "pl", "ar", "th"],
   fallbackLocales: { default: "en" },  // use English if a text is missing
   catalogs: [{
     path: "<rootDir>/src/locales/{locale}",  // → src/locales/pl.po
@@ -80,7 +80,7 @@ createRoot(root).render(
         code: `# 1. Write or change English texts in components
 # 2. Copy them into the .po files:
 pnpm i18n:extract
-# 3. Translators fill in msgstr in src/locales/pl.po and ar.po`,
+# 3. Translators fill in msgstr in src/locales/pl.po, ar.po and th.po`,
         note: "Extract also prints a table of how many texts are still untranslated per language.",
       },
     ],

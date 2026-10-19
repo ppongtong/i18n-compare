@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { activity, useActivity, type ActivityKind } from "./activity";
 import { LOCALES, localeDir, type Gender, type Locale } from "./data";
 import { SCENARIOS, type HowTo, type ScenarioId } from "./scenarios";
-import { cardDomId, isEmbedded, listenForShowCard, showInOtherApp } from "./sync";
+import { cardDomId, isEmbedded, listenForShowCard, notifyParentLocaleChange, showInOtherApp } from "./sync";
 
 const OTHER_LIBRARY: Record<string, string> = { "react-i18next": "Lingui", Lingui: "react-i18next" };
 
@@ -50,6 +50,7 @@ export function Shell({
   }, [library]);
 
   useEffect(listenForShowCard, []);
+  useEffect(() => notifyParentLocaleChange(locale), [locale]);
 
   return (
     <ShellContext.Provider value={{ locale, library }}>
@@ -60,9 +61,10 @@ export function Shell({
             <h1>{library}</h1>
             <p className="tagline">{tagline}</p>
           </div>
-          <label className="locale-picker">
+          <label className="locale-picker" htmlFor="locale-select">
             <span>Locale</span>
             <select
+              id="locale-select"
               data-testid="locale-select"
               value={locale}
               onChange={(e) => onLocaleChange(e.target.value as Locale)}
@@ -141,6 +143,7 @@ function CardHeading({ card, headingId, children }: { card: string; headingId: s
         <button
           type="button"
           className="sync-btn"
+          aria-label={`Scroll the ${other} app to this section`}
           onClick={() => showInOtherApp(card)}
           title={`Scroll the ${other} app to this section`}
         >
@@ -188,9 +191,10 @@ interface PlaygroundControlsProps {
 export function PlaygroundControls({ count, onCountChange, gender, onGenderChange }: PlaygroundControlsProps) {
   return (
     <div className="controls" dir="ltr" lang="en">
-      <label>
+      <label htmlFor="playground-count">
         Count
         <input
+          id="playground-count"
           data-testid="playground-count"
           type="number"
           min={0}
@@ -198,9 +202,10 @@ export function PlaygroundControls({ count, onCountChange, gender, onGenderChang
           onChange={(e) => onCountChange(Math.max(0, Number(e.target.value) || 0))}
         />
       </label>
-      <label>
+      <label htmlFor="playground-gender">
         Gender
         <select
+          id="playground-gender"
           data-testid="playground-gender"
           value={gender}
           onChange={(e) => onGenderChange(e.target.value as Gender)}
@@ -241,7 +246,7 @@ function ActivityPanel({ howItWorks, catalog, locale }: { howItWorks: ReactNode;
         <div className="log">
           <div className="log-head">
             <span>Live log (newest first)</span>
-            <button type="button" onClick={activity.clear}>
+            <button type="button" onClick={activity.clear} aria-label="Clear activity log">
               Clear
             </button>
           </div>

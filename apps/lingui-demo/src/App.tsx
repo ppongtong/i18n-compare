@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Plural, Select, Trans, useLingui } from "@lingui/react/macro";
 import {
   PlaygroundControls,
@@ -35,6 +35,8 @@ function ProfileUpdated({ name, gender }: { name: string; gender: Gender }) {
 export function App() {
   const { t, i18n } = useLingui();
   const [loading, setLoading] = useState(false);
+  const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null);
+  const activeRequestRef = useRef(0);
   const [count, setCount] = useState(1);
   const [gender, setGender] = useState<Gender>("female");
 
@@ -42,9 +44,19 @@ export function App() {
   const name = demo.userName;
 
   async function changeLocale(next: Locale) {
+    const reqId = ++activeRequestRef.current;
+    setSelectedLocale(next);
     setLoading(true);
-    await activateLocale(next);
-    setLoading(false);
+    try {
+      await activateLocale(next);
+    } catch (err) {
+      console.error(`Failed to activate locale "${next}":`, err);
+    } finally {
+      if (activeRequestRef.current === reqId) {
+        setLoading(false);
+        setSelectedLocale(null);
+      }
+    }
   }
 
   // Lingui has no in-message formatters: format with i18n.number / i18n.date / Intl, then interpolate.
@@ -57,7 +69,7 @@ export function App() {
       library="Lingui"
       accent="violet"
       tagline="You write the English text directly in components. A command copies it into one .po file per language for translators, and the build turns it into fast lookups."
-      locale={locale}
+      locale={selectedLocale ?? locale}
       onLocaleChange={changeLocale}
       loading={loading}
       catalog={catalogView()}

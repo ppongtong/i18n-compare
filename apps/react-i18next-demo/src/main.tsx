@@ -6,7 +6,13 @@ import { switchLocale } from "./i18n";
 import { App } from "./App";
 
 const initial = localeFromUrl();
-if (initial) await switchLocale(initial, `page load (?locale=${initial})`);
+if (initial) {
+  try {
+    await switchLocale(initial, `page load (?locale=${initial})`);
+  } catch (err) {
+    console.error(`Failed to load initial locale "${initial}", falling back to English:`, err);
+  }
+}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
